@@ -50,9 +50,11 @@ import Loading from './loading';
 
 const App = () => {
   const isProduction = process.env.NODE_ENV === 'production';
+  const propertyToCheck = 'version'; // value can be either 'version' or 'hash'
   return (
     <CacheBuster
-      currentVersion={version}
+      currentValue={version or hash}
+      propertyToCheck={propertyToCheck}
       isEnabled={isProduction} //If false, the library is disabled.
       isVerboseMode={false} //If true, the library writes verbose logs to console.
       loadingComponent={<Loading />} //If not pass, nothing appears at the time of new version check.
