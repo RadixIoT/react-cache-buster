@@ -39,15 +39,11 @@ function CacheBuster({
       const metaJson = await fetch('/meta.json?r=' + Math.random())
         .then((response) => response.json())
         .then((responseData) => {
-          console.log(
-            `CacheBuster: meta.json value found: ${JSON.string(responseData)}`
-          );
+          console.log(`CacheBuster: meta.json value found: ${JSON.stringify(responseData)}`);
           return responseData;
         })
         .catch(() => {
-          console.error(
-            'CacheBuster: Unable to locate meta.json file.  Cache validation failed.'
-          );
+          console.error('CacheBuster: Unable to locate meta.json file.  Cache validation failed.');
         });
 
       // If no meta.json data was found, just set the cache to isLatestVersion true and bail out.  Devs will need to check the console for errors.
@@ -56,6 +52,7 @@ function CacheBuster({
           loading: false,
           isLatestVersion: true
         });
+        console.info("CacheBuster: cache could not be verified because meta.json file could not be retrieved.");
         return;
       }
 

@@ -5,9 +5,25 @@ function GetVersion({ propertyToCheck }) {
   const [meta, setMeta] = useState('');
 
   const getMeta = async (prop) => {
-    const res = await fetch('/meta.json?r=' + Math.random());
-    const packageJson = await res.json();
-    const gotMeta = packageJson[prop];
+
+      const metaJson = await fetch('/meta.json?r=' + Math.random())
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log(
+            `CacheBuster: meta.json value found: ${JSON.stringify(
+              responseData
+            )}`
+          );
+          return responseData;
+        })
+        .catch(() => {
+          console.error(
+            'CacheBuster: Unable to locate meta.json file.  Cache validation failed.'
+          );
+        });
+
+        
+    const gotMeta = (metaJson ? metaJson[prop] : 'meta.json not found');
     setMeta(gotMeta);
   };
 
