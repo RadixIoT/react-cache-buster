@@ -12,10 +12,11 @@ function CacheBuster({
   onCacheClear
 }) {
   // We only support two property names currently: version and hash.  If the property name is not one of these throw an error
-  if (propertyToCheck !== 'version' && propertyToCheck !== 'hash'){
-    console.error(`CacheBuster: invalid propertyToCheck given: ${propertyToCheck}.  Must be either 'version' or 'hash'`);
+  if (propertyToCheck !== 'version' && propertyToCheck !== 'hash') {
+    console.error(
+      `CacheBuster: invalid propertyToCheck given: ${propertyToCheck}.  Must be either 'version' or 'hash'`
+    );
   }
-
 
   if (!currentValue) {
     currentValue = 'notfound';
@@ -35,8 +36,30 @@ function CacheBuster({
 
   const checkCacheStatus = async () => {
     try {
-      const res = await fetch('/meta.json?r=' + Math.random());
-      const metaJson = await res.json();
+      const metaJson = await fetch('/meta.json?r=' + Math.random())
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log(
+            `CacheBuster: meta.json value found: ${JSON.string(responseData)}`
+          );
+          return responseData;
+        })
+        .catch(() => {
+          console.error(
+            'CacheBuster: Unable to locate meta.json file.  Cache validation failed.'
+          );
+        });
+
+      // If no meta.json data was found, just set the cache to isLatestVersion true and bail out.  Devs will need to check the console for errors.
+      if (!metaJson) {
+        setCacheStatus({
+          loading: false,
+          isLatestVersion: true
+        });
+        return;
+      }
+
+      // Extract the meta data
       const metaValue = metaJson[propertyToCheck];
 
       // Log what the cachebuster is seeing and checking
@@ -52,7 +75,9 @@ function CacheBuster({
         const ssName = 'reloadRequest';
         const beenHereBefore = sessionStorage.getItem(ssName);
         if (beenHereBefore) {
-          console.warn('CacheBuster: Refresh has already run once...cancelling to avoid infinite loop.  Please check your comparison values.');
+          console.warn(
+            'CacheBuster: Refresh has already run once...cancelling to avoid infinite loop.  Please check your comparison values.'
+          );
           sessionStorage.removeItem(ssName);
           setCacheStatus({
             loading: false,
