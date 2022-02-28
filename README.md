@@ -4,7 +4,7 @@
 
 ### About the Package
 
-Based on a project originally written by CagriAldemir,this package allows clients to automatically check the new version or git commit hash when a new version is released in the production environment, and if a new version is published, clearing the cache and reload the page. You can find an example project under the example folder.
+Based on a project originally written by CagriAldemir, this package allows clients to automatically check the new version or git commit hash when a new version is released in the production environment, and if a new version is published, clearing the cache and reload the page. You can find an example project under the example folder.
 
 ### Installation
 
