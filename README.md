@@ -4,7 +4,7 @@
 
 ### About the Package
 
-This package allows clients to automatically check the new version when a new version is released in the production environment, and if a new version is published, clearing the cache and reload the page. You can find an example project under the example folder.
+Based on a project originally written by CagriAldemir,this package allows clients to automatically check the new version or git commit hash when a new version is released in the production environment, and if a new version is published, clearing the cache and reload the page. You can find an example project under the example folder.
 
 ### Installation
 
@@ -40,7 +40,7 @@ And then, change your build script like below;
 }
 ```
 
-The "generate-meta-tag" script command creates a file named "meta.json" under the public folder under the root directory of your project and writes the current package.json version into the created file.
+The "generate-meta-tag" script command creates a file named "meta.json" under the public folder under the root directory of your project and writes the current package.json version and the current git hash into the created file.
 
 ```jsx
 import React from 'react';
@@ -71,17 +71,17 @@ You can now build and go on production as before.
 
 The process works as follows;
 
-- When you run the build script, the "generate-meta-tag" script writes the current package.json version into meta.json and then the build process continues.
-- When the client opens the website, the CacheBuster component makes a request to the "/meta.json" file located in the root.
+- When you run the build script, the "generate-meta-tag" script writes the current package.json version and current git hash into meta.json and then the build process continues.
+- When the client opens the website, the CacheBuster component makes a request to the "/meta.json" file (with cache-busting querystring variable) located in the root.
 - Although the website is initially loaded via cache, the updated version data is obtained through the request since XHR requests are not kept in the cache.
 - Then, the current version of the cached project is compared with the version received over the request.
-- If it is understood that a new version has been published as a result of this comparison, the whole cache is deleted and the project is reloaded.
+- If the logic determines that a cache refresh is needed based on what is configured, either the version or git hash, the whole cache is deleted and the project is reloaded.
 
 ### Contact
 
-Twitter: [@CagriAldemir](https://twitter.com/CagriAldemir)
+Original Author Twitter: [@CagriAldemir](https://twitter.com/CagriAldemir)
 
-Mail: [cagri@cagrialdemir.com.tr](mailto:cagri@cagrialdemir.com.tr)
+Original Author Mail: [cagri@cagrialdemir.com.tr](mailto:cagri@cagrialdemir.com.tr)
 
 ### License
 
