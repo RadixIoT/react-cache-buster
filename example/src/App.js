@@ -8,6 +8,7 @@ const App = () => {
   const propertyToCheck = 'hash';
   // const propertyToCheck = 'version';
   const hashVal = process.env.REACT_APP_COMMIT_HASH;
+  const cacheRandomizer = Math.random().toString();
   console.log(`this is the hashval [${hashVal}]`);
   return (
     <CacheBuster
@@ -15,6 +16,7 @@ const App = () => {
       isEnabled={true}
       isVerboseMode={true}
       propertyToCheck={propertyToCheck}
+      randomizer={cacheRandomizer}
       loadingComponent={<Loading />}
     >
       <HomePage />

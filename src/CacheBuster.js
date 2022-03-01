@@ -6,6 +6,7 @@ function CacheBuster({
   children = null,
   currentValue,
   propertyToCheck,
+  randomizer,
   isEnabled = false,
   isVerboseMode = false,
   loadingComponent = null,
@@ -36,7 +37,7 @@ function CacheBuster({
 
   const checkCacheStatus = async () => {
     try {
-      const metaJson = await fetch('/meta.json?r=' + Math.random())
+      const metaJson = await fetch(`/meta.json?r=${randomizer}`)
         .then((response) => response.json())
         .then((responseData) => {
           console.log(`CacheBuster: meta.json value found: ${JSON.stringify(responseData)}`);
@@ -155,6 +156,7 @@ CacheBuster.propTypes = {
   children: PropTypes.element.isRequired,
   currentValue: PropTypes.string.isRequired,
   propertyToCheck: PropTypes.string.isRequired,
+  randomizer: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   isVerboseMode: PropTypes.bool,
   loadingComponent: PropTypes.element,
